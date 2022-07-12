@@ -18,21 +18,19 @@ yargs.command({
     addNote(title)
   }
 })
-yargs.command([
-  {
+yargs.command({
     command: 'list',
     describe: 'Print all note',
     async handler() {
       printNotes()
     }
-  },
-  {
-    command: 'delete',
-    describe: 'Remove note',
-    async handler() {
-      removeNote()
-    }
+})
+yargs.command({
+  command: 'remove',
+  describe: 'Remove note',
+  async handler() {
+    removeNote(1657622022744)
   }
-])
+})
 
 yargs.parse()
