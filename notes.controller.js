@@ -12,7 +12,7 @@ async function addNote(title) {
     id: Date.now().toString()
   }
   notes.push(note)
-  await fs.writeFile('./db.json', JSON.stringify(notes))
+  await fs.writeFile(notesPath, JSON.stringify(notes))
   console.log(chalk.bgGreen('Note was added!'))
 }
 
@@ -33,10 +33,18 @@ async function removeNote(id) {
   const notes = await getNotes()
   const index = notes.findIndex(note=>note.id==id)
   notes.splice(index, 1)
-  await fs.writeFile('./db.json', JSON.stringify(notes))
+  await fs.writeFile(notesPath, JSON.stringify(notes))
   console.log(chalk.bgGreen(`Note ${index} was removed!`))
 }
 
+async function editNote(note) {
+  const notes = await getNotes()
+  const index = notes.findIndex(n => n.id === note.id)
+    notes[index] = {...notes[index], ...note}
+    await fs.writeFile(notesPath, JSON.stringify(notes))
+    console.log(chalk.bgBlue(`Note ${note.id} was edited!`))
+}
+
 module.exports = {
-  addNote, printNotes, removeNote
+  addNote, getNotes, removeNote, editNote
 }
